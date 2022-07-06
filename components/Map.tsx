@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ReactMapGL, { Marker } from "react-map-gl";
 import { css } from "@emotion/react";
-import mapboxgl from "mapbox-gl";
+//import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 interface Marker {
@@ -13,13 +13,13 @@ interface Marker {
 interface Props {
   markers: Array<Marker | null>;
 }
-
+/*
 // @ts-ignore
 // eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
 mapboxgl.workerClass =
   // @ts-ignore
   require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
-
+*/
 const markerCSS = css`
   background-color: #fff;
   border-radius: 5px;
