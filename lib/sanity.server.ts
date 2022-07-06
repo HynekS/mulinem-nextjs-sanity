@@ -1,13 +1,13 @@
-// import { createClient } from "next-sanity";
-import { createClient } from "sanity-codegen";
+import { createClient } from "next-sanity";
+//import { createClient } from "sanity-codegen";
 import { config } from "./config";
 import { Documents } from "../schema";
 
 // Set up the client for fetching data in the getProps page functions
-export const sanityClient = createClient<Documents>(config);
+export const sanityClient = createClient(config);
 
 // Set up a preview client with serverless authentication for drafts
-export const previewClient = createClient<Documents>({
+export const previewClient = createClient({
   ...config,
   useCdn: false,
   token: process.env.SANITY_API_TOKEN,

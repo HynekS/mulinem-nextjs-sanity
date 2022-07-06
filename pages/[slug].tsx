@@ -7,6 +7,8 @@ import { getClient } from "@lib/sanity.server";
 import { withPageStaticProps } from "@lib/withPageStaticProps";
 import Wrapper from "@components/Wrapper";
 
+import type { Page as PageType } from "schema";
+
 const pageQuery = groq`
   *[_type == "page" && slug.current == $slug][0] {
     body[]{
@@ -22,13 +24,13 @@ const queryAllPages = groq`*[_type == "page" && slug.current != ''] {
 }
 `;
 
-const Page: NextPage = ({ body }) => {
+const Page: NextPage<PageType> = ({ body = [] }) => {
   return (
     <Wrapper>
       <PortableText
         content={body}
         serializers={{
-          image: (props) => <Image {...props} image={props} />,
+          image: (props: any) => <Image {...props} image={props} />,
         }}
       />
     </Wrapper>
@@ -36,7 +38,7 @@ const Page: NextPage = ({ body }) => {
 };
 
 export const getStaticProps = withPageStaticProps(
-  async (context: GetStaticPropsContext, sharedPageStaticProps: unknown) => {
+  async (context: GetStaticPropsContext, sharedPageStaticProps) => {
     const { slug } = context.params || {};
 
     const { body } = await getClient(false).fetch(pageQuery, { slug });
@@ -52,13 +54,15 @@ export const getStaticProps = withPageStaticProps(
 );
 
 export const getStaticPaths: GetStaticPaths = async (context) => {
+  /*
   const slug = context.params || {};
   const pages =
     (await getClient(false).fetch(queryAllPages, {
       slug,
     })) || [];
-
-  const paths = pages.map((page) => ({
+    */
+  const pages = await getClient(false).fetch(queryAllPages);
+  const paths = pages.map((page: { slug: string }) => ({
     params: { slug: page.slug },
   }));
   return { paths, fallback: false };

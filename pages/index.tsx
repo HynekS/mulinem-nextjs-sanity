@@ -1,8 +1,4 @@
-import type {
-  NextPage,
-  GetStaticPropsContext,
-  InferGetStaticPropsType,
-} from "next";
+import type { NextPage, GetStaticPropsContext } from "next";
 import { groq } from "next-sanity";
 import { urlFor } from "@lib/sanity";
 import { getClient } from "@lib/sanity.server";
@@ -11,8 +7,20 @@ import PortableText from "react-portable-text";
 
 import Wrapper from "@components/Wrapper";
 
+import type { FrontPage, FrontPageParagraph } from "schema";
+
+type FrontPageProps = Pick<
+  FrontPage,
+  "title" | "secondaryTitle" | "mainImage"
+> & {
+  paragraphs: Array<{
+    text: FrontPageParagraph["paragraphText"];
+    image?: FrontPageParagraph["paragraphImage"];
+  }>;
+};
+
 const frontPageQuery = groq`
-  *[_type == "frontPage"][0] {
+  *[_type == "frontPage"] {
     title,
     secondaryTitle,
     mainImage,
@@ -23,26 +31,26 @@ const frontPageQuery = groq`
   }
 `;
 
-const Home: NextPage = ({
+const Home: NextPage<FrontPageProps> = ({
   title,
   secondaryTitle,
   mainImage,
   paragraphs,
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
+}) => {
   return (
     <div>
       <div
         style={{
-          backgroundImage: `url(${urlFor(mainImage).width(1800).url()})`,
+          backgroundImage: mainImage
+            ? `url(${urlFor(mainImage).width(1800).url()})`
+            : undefined,
         }}
         tw="bg-black bg-no-repeat relative bg-center bg-cover min-height[320px] md:(bg-cover min-height[480px]) lg:(bg-cover min-height[560px]) xl:(bg-contain min-height[640px]) after:(absolute inset-0 bg-black opacity-50 z-0)"
       >
         <Wrapper>
           <header tw="relative z-10 pt-8 text-center text-white pointer-events-none">
             <h1>{title}</h1>
-            <h2 tw="text-sm">
-              Medieval Urban Lanscape in Northeastern Mesopotamia
-            </h2>
+            <h2 tw="text-sm">{secondaryTitle}</h2>
           </header>
         </Wrapper>
       </div>
@@ -73,9 +81,11 @@ const Home: NextPage = ({
                 </picture>
               </div>
             ) : null}
-            <div tw="py-4 bg-white">
-              <PortableText content={paragraph.text} />
-            </div>
+            {!!paragraph.text && (
+              <div tw="py-4 bg-white">
+                <PortableText content={paragraph.text} />
+              </div>
+            )}
           </div>
         ))}
       </Wrapper>
@@ -84,14 +94,10 @@ const Home: NextPage = ({
 };
 
 export const getStaticProps = withPageStaticProps(
-  async (
-    { preview = false }: GetStaticPropsContext,
-    sharedPageStaticProps: unknown
-  ) => {
-    const [{ title, secondaryTitle, mainImage, paragraphs }] =
-      /*await getClient(
+  async ({ preview = false }: GetStaticPropsContext, sharedPageStaticProps) => {
+    const [{ title, secondaryTitle, mainImage, paragraphs }] = await getClient(
       preview
-    ).fetch(frontPageQuery);*/ await getClient(preview).getAll("frontPage");
+    ).fetch(frontPageQuery);
 
     return {
       props: {

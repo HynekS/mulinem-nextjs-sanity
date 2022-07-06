@@ -1,13 +1,25 @@
-import React, { useLayoutEffect } from "react";
+import { useLayoutEffect, ReactNode } from "react";
 import Header from "@components/Header";
 import Navbar from "@components/Navbar";
 import Main from "@components/Main";
 import Footer from "@components/Footer";
 
+import type { MainMenu, FooterData } from "@lib/withPageStaticProps";
+interface Props {
+  children: ReactNode;
+  headerData: MainMenu;
+  footerData: FooterData;
+}
+
 const useBrowserLayoutEffect =
   typeof window === "undefined" ? () => {} : useLayoutEffect;
 
-const Layout = ({ headerData = {}, footerData = {}, children, ...props }) => {
+const Layout = ({
+  headerData = {} as MainMenu,
+  footerData = {} as FooterData,
+  children,
+  ...props
+}: Props) => {
   useBrowserLayoutEffect(() => {
     const preventTransitions = () => {
       document.body.classList.add("resize-animation-stopper");
@@ -36,10 +48,10 @@ const Layout = ({ headerData = {}, footerData = {}, children, ...props }) => {
         />
         <title>{title}</title>
     </Helmet>*/}
-      <Header key="header">
+      <Header>
         <Navbar headerData={headerData} {...props} />
       </Header>
-      <Main key="main">{children}</Main>
+      <Main>{children}</Main>
       <Footer footerData={footerData} {...props} />
     </>
   );

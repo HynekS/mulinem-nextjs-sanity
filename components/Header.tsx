@@ -1,11 +1,11 @@
-import React from "react";
 import Link from "next/link";
-import "twin.macro";
 
 import Wrapper from "@components/Wrapper";
 import Logo from "@components/Logo";
 
-const Header = ({ children }) => {
+import type { ReactNode } from "react";
+
+const Header = ({ children }: { children: ReactNode }) => {
   return (
     /* mb-71 px is quick dirty fix, should be calculated by js (it's the fixed header's height)*/
     <Wrapper tw="relative bg-white p-0 z-20 mb[71px] md:(mb-0 static bg-transparent padding[var(--basePadding)])">

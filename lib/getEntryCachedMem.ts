@@ -1,7 +1,6 @@
 import { getClient } from "@lib/sanity.server";
 
 const DebugCaching = true;
-
 declare global {
   // var is required for the object to exist in globalThis
   // let or const will be rejected.
@@ -13,7 +12,7 @@ export async function getEntryCachedMem(
   id: string,
   query: string,
   cacheTimeInSeconds = 60
-): Promise<unknown> {
+): Promise<any> {
   const cacheKey = id;
 
   if (globalThis.sanityCache == null) {
@@ -38,7 +37,6 @@ export async function getEntryCachedMem(
   }
 
   const entry = await getClient(false).fetch(query);
-  //const entry = await getClient(false).getAll("navigation", `title == "Main Menu"`);
 
   const cachedEntry = {
     ttl: new Date().getTime() + 1000 * cacheTimeInSeconds,

@@ -1,10 +1,20 @@
-import React, { useState } from "react";
-import styled from "@emotion/styled";
-import Link from "next/link";
+import { useState, useEffect } from "react";
+import Link, { LinkProps } from "next/link";
+import { useRouter } from "next/router";
 import { RemoveScroll } from "react-remove-scroll";
 import { css } from "@emotion/react";
 import tw from "twin.macro";
 import { TiSocialFacebook } from "react-icons/ti";
+
+import type { MainMenu } from "@lib/withPageStaticProps";
+
+interface Props {
+  headerData: MainMenu;
+  [key: string]: any;
+}
+interface NavLinkProps extends LinkProps {
+  children: React.ReactElement;
+}
 
 const hamburgerMenuStyles = css`
   width: calc(60px / 2);
@@ -64,51 +74,35 @@ const hamburgerMenuStyles = css`
   }
 `;
 
-const StyledNavLink = styled((props) => <Link {...props} />)`
-  display: inline-block;
-  line-height: 1;
-  color: var(--baseTextColor);
-  transform: perspective(1px) translateZ(0);
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-  position: relative;
-  overflow: hidden;
-  &:before {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #bbb;
-    height: 1px;
-    transform: translateY(4px);
-    transition: transform 0.3s ease-out;
-  }
-  &.${(props) => props.activeClassName} {
-    color: #bbb;
-    cursor: default;
-    pointer-events: none;
-    &:before {
-      background: #bbb;
-      transform: translateY(0);
-    }
-  }
-  &:hover {
-    text-decoration: none;
-  }
-  &:hover:before,
-  &:focus:before,
-  &:active:before {
-    transform: translateY(0);
-  }
-`;
-
-StyledNavLink.defaultProps = {
-  activeClassName: "active",
+const NavLink = ({ children, href, ...props }: NavLinkProps) => {
+  const { asPath } = useRouter();
+  return (
+    <Link href={href} {...props}>
+      <a
+        css={[
+          tw`inline-block leading-none color[var(--baseTextColor)] relative overflow-hidden hocus:(no-underline) before:(bg-gray-500 absolute left-0 right-0 bottom-0 h-px transform[translateY(4px)] ) hocus:before:(transition-transform duration-300 transform[translateY(0px)])`,
+          asPath === href && tw`bg-blue-200`,
+        ]}
+      >
+        {children}
+      </a>
+    </Link>
+  );
 };
 
-export const Navbar = ({ headerData, ...props }) => {
+export const Navbar = ({ headerData, ...props }: Props) => {
+  console.log({ headerData });
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { asPath } = useRouter();
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      setIsMenuOpen(false);
+    }
+    return () => {};
+  }, [asPath]);
+
   return (
     <RemoveScroll enabled={isMenuOpen}>
       <nav tw="fixed inset-0 pointer-events-none h-full md:(flex static items-end relative)">
@@ -132,26 +126,29 @@ export const Navbar = ({ headerData, ...props }) => {
                 tw`transform[translateX(-100%)] md:(transform[none])`,
             ]}
           >
-            {headerData.items.map((menuItem, index) => (
+            {headerData.items.map((item, index) => (
               <li
                 key={index}
-                tw="text-2xl list-none mr-5 mt-4 transition[transform 0.3s ease-in-out] md:(font-size[var(--step--1)] mt-0)"
+                tw="text-2xl list-none mr-5 mt-4 transition[transform 0.3s ease-in-out] md:(flex items-end font-size[var(--step--1)] mt-0)"
               >
-                <Link href={`${menuItem.internalUrl || menuItem.externalUrl}`}>
-                  {menuItem.text}
-                </Link>
+                <NavLink href={`${item.internalUrl || item.externalUrl}`}>
+                  <>{item.text}</>
+                </NavLink>
               </li>
             ))}
             <li
               key="fb"
-              tw="text-2xl list-none mr-5 mt-4 transition[transform 0.3s ease-in-out] md:(font-size[var(--step--1)] mt-0)"
+              tw="text-2xl list-none mr-5 mt-4 transition[transform 0.3s ease-in-out] md:(flex items-end font-size[var(--step--1)] mt-0)"
             >
               <Link
                 href="https://cs-cz.facebook.com/Medieval-Urban-Landscape-in-Northeastern-Mesopotamia-Mulinem-476545315816993/"
                 target="_blank"
                 rel="noopener noreferrer"
+                passHref
               >
-                <TiSocialFacebook />
+                <a tw="inline-block leading-none  color[var(--baseTextColor)] relative overflow-hidden hocus:(no-underline) before:(bg-gray-500 absolute left-0 right-0 bottom-0 h-px transform[translateY(4px)] ) hocus:before:(transition-transform duration-300 transform[translateY(0px)])">
+                  <TiSocialFacebook />
+                </a>
               </Link>
             </li>
           </ul>

@@ -4,7 +4,12 @@ import { useInView } from "react-intersection-observer";
 import { urlFor } from "@lib/sanity";
 import css from "../styles/Image.module.css";
 
-function get(value, path, defaultValue = undefined) {
+import type {
+  SanityImageObject,
+  FitMode,
+} from "@sanity/image-url/lib/types/types";
+
+function get(value: any, path: string, defaultValue = undefined) {
   return String(path)
     .split(".")
     .reduce((acc, v) => {
@@ -17,12 +22,27 @@ function get(value, path, defaultValue = undefined) {
     }, value);
 }
 
-function omit(obj, ...keys) {
+function omit(obj: any, ...keys: string[]) {
   const keysToRemove = new Set(keys.flat());
 
   return Object.fromEntries(
     Object.entries(obj).filter(([k]) => !keysToRemove.has(k))
   );
+}
+
+interface Props {
+  image: SanityImageObject;
+  className?: string;
+  alttext?: string;
+  src?: string;
+  aspect?: number;
+  srcSet?: string;
+  caption?: string;
+  width: number;
+  fit?: FitMode;
+  sizes?: string;
+  widths?: number[];
+  lazy?: string;
 }
 
 const ImageUrlBuilder = urlFor;
@@ -32,7 +52,7 @@ const DEFAULT_WIDTHS = [320, 480, 640, 800, 1440];
 const DEFAULT_SIZES = `(max-width: 320px) 280px, (max-width: 480px) 440px, 800px`;
 
 // eslint-disable-next-line complexity
-const Image = (props) => {
+const Image = (props: Props) => {
   const [inViewRef, inView] = useInView({
     triggerOnce: true,
     threshold: 0,
@@ -119,31 +139,36 @@ const Image = (props) => {
           }}
         />
         <img
-          {...omit(props, [
-            "alttext",
-            "asset",
-            "image",
-            "className",
-            "aspect",
-            "width",
-            "height",
-            "widths",
-            "lazy",
-            "clip",
-          ])}
-          alt={alt || (image && image.alt)}
+          {...omit(
+            props,
+            ...[
+              "alttext",
+              "asset",
+              "image",
+              "className",
+              "aspect",
+              "width",
+              "height",
+              "widths",
+              "lazy",
+              "clip",
+            ]
+          )}
+          alt={alt /*|| (image && image.alt)*/}
           ref={imgRef}
           srcSet={showImage && !src ? defaultSrcSet || srcSet : undefined}
           sizes={sizes}
           src={showImage ? src || computedSrc : undefined}
           className={css.img}
           width={width}
-          height={height}
+          height={height || undefined}
           onLoad={() => setLoaded(true)}
           style={{ opacity: isLoaded ? 1 : 0 }}
         />
       </div>
-      {!!caption && <figcaption>{caption}</figcaption>}
+      {!!caption && (
+        <figcaption className={css.figcaption}>{caption}</figcaption>
+      )}
     </figure>
   );
 };

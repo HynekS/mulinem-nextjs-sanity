@@ -1,4 +1,4 @@
-import React, { Suspense, useState, useMemo } from "react";
+import { Suspense, useState, useMemo, ReactNode } from "react";
 import type { NextPage, GetStaticPropsContext } from "next";
 import { createPortal } from "react-dom";
 import Link from "next/link";
@@ -13,9 +13,19 @@ import { getClient } from "@lib/sanity.server";
 import { urlFor } from "@lib/sanity";
 import { withPageStaticProps } from "@lib/withPageStaticProps";
 
-const Portal = ({ id, children }) => {
+const Portal = ({ id, children }: { id: string; children: ReactNode }) => {
   const target = usePortal(id);
   return createPortal(children, target);
+};
+
+import type { Site, SanityGeoPoint } from "schema";
+
+export type SitePageProps = {
+  sites: Array<
+    Pick<Site, "title" | "mainImage"> & { slug?: string } & {
+      location: Pick<SanityGeoPoint, "lat" | "lng">;
+    }
+  >;
 };
 
 const sitesQuery = groq`*[_type == "site"] | order(order asc)
@@ -37,7 +47,7 @@ const Map = dynamic(
   }
 );
 
-const SitesPage: NextPage = ({ sites }) => {
+const SitesPage: NextPage<SitePageProps> = ({ sites }) => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const isSSR = typeof window === "undefined";
 
@@ -104,12 +114,14 @@ const SitesPage: NextPage = ({ sites }) => {
           <ul>
             {sites.map((site, index) => (
               <li key={index} tw="flex items-center gap-3">
-                <div tw="w-10 h-10 overflow-hidden rounded-full flex items-center justify-center">
-                  <img
-                    src={urlFor(site.mainImage).width(120).url()}
-                    tw="object-cover min-height[100%]"
-                    alt=""
-                  />
+                <div tw="w-10 h-10 overflow-hidden rounded-full flex items-center justify-center bg-gray-300">
+                  {!!site.mainImage && (
+                    <img
+                      src={urlFor(site.mainImage).width(120).url()}
+                      tw="object-cover min-height[100%]"
+                      alt=""
+                    />
+                  )}
                 </div>
                 <h2>
                   <Link href={`sites/${site.slug}`}>{site.title}</Link>
@@ -124,7 +136,7 @@ const SitesPage: NextPage = ({ sites }) => {
 };
 
 export const getStaticProps = withPageStaticProps(
-  async (context: GetStaticPropsContext, sharedPageStaticProps: unknown) => {
+  async (context: GetStaticPropsContext, sharedPageStaticProps) => {
     const sites = await getClient(false).fetch(sitesQuery);
 
     return {

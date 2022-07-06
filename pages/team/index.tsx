@@ -6,6 +6,17 @@ import { getClient } from "@lib/sanity.server";
 import { withPageStaticProps } from "@lib/withPageStaticProps";
 import Wrapper from "@components/Wrapper";
 
+import type { TeamMember } from "schema";
+
+type TeamProps = {
+  teamMembers: Array<
+    Pick<
+      TeamMember,
+      "name" | "institution" | "bio" | "emails" | "links" | "image"
+    >
+  >;
+};
+
 const teamMateQuery = groq`
   *[_type == "teamMember"] | order(order asc)
 {
@@ -17,7 +28,7 @@ const teamMateQuery = groq`
     image
   }`;
 
-const Team: NextPage = ({ teamMembers }) => {
+const Team: NextPage<TeamProps> = ({ teamMembers }) => {
   return (
     <Wrapper>
       <article>
@@ -72,7 +83,7 @@ const Team: NextPage = ({ teamMembers }) => {
 };
 
 export const getStaticProps = withPageStaticProps(
-  async (context: GetStaticPropsContext, sharedPageStaticProps: unknown) => {
+  async (context: GetStaticPropsContext, sharedPageStaticProps) => {
     const teamMembers = await getClient(false).fetch(teamMateQuery);
 
     return {

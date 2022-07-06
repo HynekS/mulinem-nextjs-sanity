@@ -1,6 +1,3 @@
-/* @tailwind base; */
-/* @import 'node_modules/modern-normalize/modern-normalize.css'; */
-
 :root {
   --contentWidth: 65ch;
   --baseFontFamily: "Catamaran", ui-sans-serif, system-ui, -apple-system,
@@ -50,13 +47,11 @@ body,
 #___next {
   height: 100%;
 }
-/*
-.gatsby-resp-image-figcaption {
-  font-size: var(--step--1);
-  padding-top: 0.5rem;
-  text-align: center;
+
+a {
+  cursor: pointer;
 }
-*/
+
 p {
   margin-top: 0;
 }

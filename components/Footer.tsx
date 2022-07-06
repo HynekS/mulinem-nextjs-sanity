@@ -1,7 +1,9 @@
 import Wrapper from "@components/Wrapper";
 import Image from "@components/Image";
 
-export const Footer = ({ footerData }) => {
+import type { FooterData } from "@lib/withPageStaticProps";
+
+export const Footer = ({ footerData }: { footerData: FooterData }) => {
   return (
     <footer>
       <Wrapper>
@@ -26,7 +28,7 @@ export const Footer = ({ footerData }) => {
                     <Image
                       tw="max-width[clamp(160px, 200px, 100%)]"
                       image={supporter.image}
-                      alttext={supporter.alttext}
+                      alttext={supporter.image.alttext || ""}
                       width={200}
                       widths={[100, 200]}
                       sizes={`(max-width: 320px) 160px, 100%`}
