@@ -1,16 +1,112 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
+/* @tailwind base; */
+/* @import 'node_modules/modern-normalize/modern-normalize.css'; */
 
-a {
-  color: inherit;
-  text-decoration: none;
+:root {
+  --contentWidth: 65ch;
+  --baseFontFamily: "Catamaran", ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
+  --displayFontFamily: "IBM Plex Serif", ui-serif, Georgia, Cambria,
+    "Times New Roman", Times, serif;
+  --basePadding: 1rem;
+  --baseTextColor: #333;
+  --baseLeading: 1.5;
+  --baseFontWeight: 400;
+  --baseHeadersWeight: 500;
+  --step--3: clamp(0.58rem, 0.53rem + 0.2vw, 0.69rem);
+  --step--2: clamp(0.69rem, 0.64rem + 0.24vw, 0.82rem);
+  --step--1: clamp(0.83rem, 0.77rem + 0.29vw, 0.99rem);
+  --step-0: clamp(1rem, 0.92rem + 0.35vw, 1.19rem);
+  --step-1: clamp(1.2rem, 1.11rem + 0.42vw, 1.43rem);
+  --step-2: clamp(1.44rem, 1.33rem + 0.51vw, 1.71rem);
+  --step-3: clamp(1.73rem, 1.59rem + 0.61vw, 2.05rem);
+  --step-4: clamp(2.07rem, 1.91rem + 0.73vw, 2.46rem);
+  --step-5: clamp(2.49rem, 2.3rem + 0.88vw, 2.96rem);
 }
 
 * {
   box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--baseFontFamily);
+  font-size: 100%;
+  font-weight: var(--baseFontWeight);
+  color: var(--baseTextColor);
+  line-height: var(--baseLeading);
+  font-size: var(--step-0);
+}
+
+html,
+body,
+#___next {
+  height: 100%;
+}
+/*
+.gatsby-resp-image-figcaption {
+  font-size: var(--step--1);
+  padding-top: 0.5rem;
+  text-align: center;
+}
+*/
+p {
+  margin-top: 0;
+}
+
+p + p,
+li + li {
+  margin-top: 1em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: var(--baseHeadersWeight);
+  line-height: 1.1;
+}
+
+h3 {
+  font-size: var(--step-1);
+}
+
+h2 {
+  font-size: var(--step-2);
+}
+
+h1 {
+  font-size: var(--step-4);
+}
+
+li {
+  list-style-type: square;
+}
+
+a {
+  color: #4078c0;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+h1 ~ p:first-of-type,
+h1 ~ div > p:first-of-type {
+  font-size: calc(var(--step-0) * 1.15);
+}
+
+.resize-animation-stopper * {
+  animation: none !important;
+  transition: none !important;
 }

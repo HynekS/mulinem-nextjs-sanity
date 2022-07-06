@@ -1,0 +1,67 @@
+// @ts-check
+import React, { useState } from "react";
+import ReactMapGL, { Marker } from "react-map-gl";
+import styled from "@emotion/styled";
+import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+
+// @ts-ignore
+// eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
+mapboxgl.workerClass =
+  // @ts-ignore
+  require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
+
+const MarkerContent = styled("div")`
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  padding: 0.2rem 0.4rem;
+  font-size: 0.75rem;
+  position: relative;
+  top: 100%;
+  right: 50%;
+  transform: translateY(1rem);
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    right: calc(50% - 0.5rem);
+    border-width: 0 0.5rem 0.5rem 0.5rem;
+    border-style: solid;
+    border-color: transparent transparent #fff transparent;
+  }
+`;
+
+const Map = ({ markers }) => {
+  const [viewport, setViewport] = useState({
+    latitude: 35.79389191338007,
+    longitude: 43.95788033520085,
+    width: 800,
+    height: 640,
+    zoom: 8.25,
+  });
+
+  return (
+    <ReactMapGL
+      {...viewport}
+      width="100%"
+      height="100%"
+      mapboxApiAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
+      mapStyle="mapbox://styles/hyneks/ckj71k0zp373b19oa4ovh189w"
+      onViewportChange={(viewport) => {
+        setViewport(viewport);
+      }}
+    >
+      {markers.map((site) => {
+        let { longitude, latitude } = site.location;
+        return (
+          <Marker key={site.title} latitude={latitude} longitude={longitude}>
+            <MarkerContent>{site.title}</MarkerContent>
+          </Marker>
+        );
+      })}
+    </ReactMapGL>
+  );
+};
+
+export default Map;

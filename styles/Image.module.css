@@ -1,0 +1,37 @@
+.root {
+  display: block;
+  position: relative;
+}
+
+.lqip {
+  image-rendering: pixelated;
+  width: 100%;
+  opacity: 1;
+  transition: opacity 50ms 100ms ease-out;
+}
+.root[data-has-aspect="true"] .lqip {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  z-index: 0;
+  background-size: 100% 100%;
+}
+
+.lqip[data-is-loaded="true"] {
+  opacity: 0;
+}
+
+.img {
+  image-rendering: auto;
+  display: block;
+  width: 100%;
+}
+.root[data-has-aspect="true"] .img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  z-index: 1;
+}

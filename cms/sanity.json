@@ -1,0 +1,33 @@
+{
+  "root": true,
+  "project": {
+    "name": "mulinem"
+  },
+  "api": {
+    "projectId": "i6z8e3p0",
+    "dataset": "production"
+  },
+  "plugins": [
+    "@sanity/base",
+    "@sanity/components",
+    "@sanity/default-layout",
+    "@sanity/default-login",
+    "@sanity/desk-tool",
+    "order-documents"
+  ],
+  "env": {
+    "development": {
+      "plugins": ["@sanity/vision", "order-documents"]
+    }
+  },
+  "parts": [
+    {
+      "name": "part:@sanity/base/schema",
+      "path": "./schemas/schema"
+    },
+	{
+      "name": "part:@sanity/desk-tool/structure",
+      "path": "./deskStructure.ts"
+    }
+  ]
+}
