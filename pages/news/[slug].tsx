@@ -1,4 +1,5 @@
 import type { NextPage, GetStaticPropsContext, GetStaticPaths } from "next";
+import { NextSeo } from "next-seo";
 import { groq } from "next-sanity";
 import PortableText from "react-portable-text";
 
@@ -36,25 +37,31 @@ const Page: NextPage<NewsType> = ({
   body = [],
 }) => {
   return (
-    <Wrapper>
-      <article>
-        <header tw="mb-4">
-          <h1 tw="mb-2">{title}</h1>
-          <div tw="font-size[var(--step--1)] opacity-80">
-            <span>{author ? author : "MULINEM team"}</span>
-            <span> • </span>
-            <span>{new Date(String(publishedAt)).toLocaleDateString()}</span>
-          </div>
-        </header>
-        <PortableText
-          content={body}
-          serializers={{
-            image: (props: any) => <Image {...props} image={props} />,
-          }}
-        />
-        {!!mainImage && <Image {...mainImage} image={mainImage} />}
-      </article>
-    </Wrapper>
+    <>
+      <NextSeo title={title} />
+      <Wrapper>
+        <article>
+          <header tw="mb-4">
+            <h1 tw="mb-2">{title}</h1>
+            <div tw="font-size[var(--step--1)] opacity-80">
+              <span>{author ? author : "MULINEM team"}</span>
+              <span> • </span>
+              <span>{new Date(String(publishedAt)).toLocaleDateString()}</span>
+            </div>
+          </header>
+          <PortableText
+            content={body}
+            serializers={{
+              image: (props: any) => <Image {...props} image={props} />,
+            }}
+          />
+          {!!mainImage && <Image {...mainImage} image={mainImage} />}
+        </article>
+        <footer tw="flex justify-center items-center py-8">
+          <img src="/rosette.svg" alt="" tw="w-12 h-12" />
+        </footer>
+      </Wrapper>
+    </>
   );
 };
 

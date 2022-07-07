@@ -1,5 +1,5 @@
 import type { NextPage, GetStaticPropsContext, GetStaticPaths } from "next";
-
+import { NextSeo } from "next-seo";
 import { groq } from "next-sanity";
 
 import Wrapper from "@components/Wrapper";
@@ -22,17 +22,20 @@ const allSitesQuery = groq`*[_type == "site" && slug.current != ""] {
 }`;
 
 const Site: NextPage<SiteProps> = ({ title, body = [] }) => (
-  <Wrapper>
-    <article>
-      <h1>{title}</h1>
-      <PortableText
-        content={body}
-        serializers={{
-          image: (props: any) => <Image {...props} image={props} />,
-        }}
-      />
-    </article>
-  </Wrapper>
+  <>
+    <NextSeo title={title} />
+    <Wrapper>
+      <article>
+        <h1>{title}</h1>
+        <PortableText
+          content={body}
+          serializers={{
+            image: (props: any) => <Image {...props} image={props} />,
+          }}
+        />
+      </article>
+    </Wrapper>
+  </>
 );
 
 export const getStaticProps = withPageStaticProps(

@@ -1,4 +1,5 @@
 import type { NextPage, GetStaticPropsContext, GetStaticPaths } from "next";
+import { NextSeo } from "next-seo";
 import { groq } from "next-sanity";
 import PortableText from "react-portable-text";
 
@@ -11,6 +12,7 @@ import type { Page as PageType } from "schema";
 
 const pageQuery = groq`
   *[_type == "page" && slug.current == $slug][0] {
+    title
     body[]{
     ..., 
     asset->{
@@ -24,16 +26,19 @@ const queryAllPages = groq`*[_type == "page" && slug.current != ''] {
 }
 `;
 
-const Page: NextPage<PageType> = ({ body = [] }) => {
+const Page: NextPage<PageType> = ({ title, body = [] }) => {
   return (
-    <Wrapper>
-      <PortableText
-        content={body}
-        serializers={{
-          image: (props: any) => <Image {...props} image={props} />,
-        }}
-      />
-    </Wrapper>
+    <>
+      <NextSeo title={title} />
+      <Wrapper>
+        <PortableText
+          content={body}
+          serializers={{
+            image: (props: any) => <Image {...props} image={props} />,
+          }}
+        />
+      </Wrapper>
+    </>
   );
 };
 
@@ -41,11 +46,12 @@ export const getStaticProps = withPageStaticProps(
   async (context: GetStaticPropsContext, sharedPageStaticProps) => {
     const { slug } = context.params || {};
 
-    const { body } = await getClient(false).fetch(pageQuery, { slug });
+    const { body, title } = await getClient(false).fetch(pageQuery, { slug });
 
     return {
       props: {
         ...sharedPageStaticProps.props,
+        title,
         body,
       },
       revalidate: 60,
@@ -53,14 +59,7 @@ export const getStaticProps = withPageStaticProps(
   }
 );
 
-export const getStaticPaths: GetStaticPaths = async (context) => {
-  /*
-  const slug = context.params || {};
-  const pages =
-    (await getClient(false).fetch(queryAllPages, {
-      slug,
-    })) || [];
-    */
+export const getStaticPaths: GetStaticPaths = async () => {
   const pages = await getClient(false).fetch(queryAllPages);
   const paths = pages.map((page: { slug: string }) => ({
     params: { slug: page.slug },
