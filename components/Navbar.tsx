@@ -78,7 +78,7 @@ const hamburgerMenuStyles = css`
 const NavLink = ({ children, href, ...props }: NavLinkProps) => {
   const { asPath } = useRouter();
   return (
-    <Link href={href} {...props}>
+    <Link href={href} passHref {...props}>
       <a
         data-text={props.text}
         css={[
