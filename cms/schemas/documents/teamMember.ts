@@ -10,6 +10,7 @@ export default {
       name: "name",
       title: "Name",
       type: "string",
+      validation: (Rule) => Rule.required(),
     },
     {
       name: "institution",

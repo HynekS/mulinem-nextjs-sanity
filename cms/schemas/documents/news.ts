@@ -1,26 +1,32 @@
-import { HiOutlineDocumentText } from "react-icons/hi";
+import { MdOutlineAnnouncement } from "react-icons/md";
 
 export default {
-  name: "update",
-  title: "Updates",
+  name: "news",
+  title: "News",
   type: "document",
-  icon: HiOutlineDocumentText,
+  icon: MdOutlineAnnouncement,
   fields: [
     {
       name: "title",
       title: "Title",
       type: "string",
+      validation: (Rule) => Rule.required(),
     },
     {
       name: "slug",
       title: "Slug",
       type: "slug",
+      validation: (Rule) => Rule.required(),
       options: {
         source: "title",
         maxLength: 96,
       },
     },
- 
+    {
+      name: "author",
+      title: "Author",
+      type: "string",
+    },
     {
       name: "mainImage",
       title: "Main image",
@@ -29,14 +35,6 @@ export default {
         hotspot: true,
       },
       fields: [
-        {
-          name: "caption",
-          type: "string",
-          title: "Caption",
-          options: {
-            isHighlighted: true,
-          },
-        },
         {
           name: "alttext",
           type: "string",
@@ -57,11 +55,13 @@ export default {
       name: "publishedAt",
       title: "Published at",
       type: "datetime",
+      validation: (Rule) => Rule.required(),
     },
     {
       name: "body",
       title: "Body",
       type: "blockContent",
+      validation: (Rule) => Rule.required(),
     },
   ],
 
@@ -71,4 +71,4 @@ export default {
       media: "mainImage",
     },
   },
-}; 
+};

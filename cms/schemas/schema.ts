@@ -6,7 +6,7 @@ import supporter from "./documents/supporter";
 import teammember from "./documents/teammember";
 import page from "./documents/page";
 import navigation from "./documents/navigation";
-import update from "./documents/update";
+import news from "./documents/news";
 import frontPage from "./documents/frontPage";
 
 import link from "./objects/link";
@@ -23,7 +23,7 @@ export default createSchema({
     teammember,
     supporter,
     page,
-    update,
+    news,
     navigation,
     link,
     navItem,
