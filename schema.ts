@@ -359,12 +359,12 @@ export interface Page extends SanityDocument {
 }
 
 /**
- * Updates
+ * News
  *
  *
  */
-export interface Update extends SanityDocument {
-  _type: "update";
+export interface News extends SanityDocument {
+  _type: "news";
 
   /**
    * Title — `string`
@@ -381,6 +381,13 @@ export interface Update extends SanityDocument {
   slug?: { _type: "slug"; current: string };
 
   /**
+   * Author — `string`
+   *
+   *
+   */
+  author?: string;
+
+  /**
    * Main image — `image`
    *
    *
@@ -390,13 +397,6 @@ export interface Update extends SanityDocument {
     asset: SanityReference<SanityImageAsset>;
     crop?: SanityImageCrop;
     hotspot?: SanityImageHotspot;
-
-    /**
-     * Caption — `string`
-     *
-     *
-     */
-    caption?: string;
 
     /**
      * Alt text — `string`
@@ -553,5 +553,5 @@ export type Documents =
   | TeamMember
   | Supporter
   | Page
-  | Update
+  | News
   | Navigation;
