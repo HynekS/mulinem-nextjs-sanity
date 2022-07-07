@@ -97,7 +97,8 @@ a:hover {
 }
 
 h1 ~ p:first-of-type,
-h1 ~ div > p:first-of-type {
+h1 ~ div > p:first-of-type,
+header ~ div > p:first-of-type {
   font-size: calc(var(--step-0) * 1.15);
 }
 

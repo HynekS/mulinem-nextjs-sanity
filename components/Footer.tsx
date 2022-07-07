@@ -8,7 +8,7 @@ export const Footer = ({ footerData }: { footerData: FooterData }) => {
     <footer>
       <Wrapper>
         <div>
-          <h3>Supporters</h3>
+          <h2 tw="font-size[var(--step-1)]">Supporters</h2>
         </div>
         {!!footerData.length && (
           <ul tw="flex-col md:(flex-row) flex justify-between items-center ml-0 pl-0">
