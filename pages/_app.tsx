@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           description="The 'MULINEM' project is focused on investigation of medieval urban sites in Adiabene, historical province of Arbela (Arbīl, Erbil, Hawler), North Iraq."
           openGraph={{
             type: "website",
-            locale: "en_IE",
+            locale: "en",
             url: "https://mulinem.net",
             site_name: "MULINEM Project",
           }}

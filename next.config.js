@@ -5,10 +5,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
-  i18n: {
-    locales: ["en"],
-    defaultLocale: "en",
-  },
+
   webpack: (config, { dev, isServer }) => {
     if (!dev && !isServer) {
       Object.assign(config.resolve.alias, {
