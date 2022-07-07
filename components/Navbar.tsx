@@ -14,6 +14,7 @@ interface Props {
 }
 interface NavLinkProps extends LinkProps {
   children: React.ReactElement;
+  text?: string;
 }
 
 const hamburgerMenuStyles = css`
@@ -79,9 +80,11 @@ const NavLink = ({ children, href, ...props }: NavLinkProps) => {
   return (
     <Link href={href} {...props}>
       <a
+        data-text={props.text}
         css={[
-          tw`inline-block leading-none color[var(--baseTextColor)] relative overflow-hidden hocus:(no-underline) before:(bg-gray-500 absolute left-0 right-0 bottom-0 h-px transform[translateY(4px)] ) hocus:before:(transition-transform duration-300 transform[translateY(0px)])`,
-          asPath === href && tw`bg-blue-200`,
+          tw`inline-flex flex-col justify-between leading-none color[var(--baseTextColor)] relative overflow-hidden hocus:(no-underline) before:(bg-gray-500 absolute left-0 right-0 bottom-0 h-px transform[translateY(4px)]) after:(content[attr(data-text)] h-0 invisible overflow-hidden font-bold pointer-events-none select-none) hocus:before:(transition-transform duration-300 transform[translateY(0px)])`,
+          asPath === href &&
+            tw`font-bold before:(bg-gray-800 transform[translateY(0px)]) cursor-default text-gray-900`,
         ]}
       >
         {children}
@@ -131,7 +134,10 @@ export const Navbar = ({ headerData, ...props }: Props) => {
                 key={index}
                 tw="text-2xl list-none mr-5 mt-4 transition[transform 0.3s ease-in-out] md:(flex items-end font-size[var(--step--1)] mt-0)"
               >
-                <NavLink href={`${item.internalUrl || item.externalUrl}`}>
+                <NavLink
+                  href={`${item.internalUrl || item.externalUrl}`}
+                  text={item.text}
+                >
                   <>{item.text}</>
                 </NavLink>
               </li>
@@ -147,7 +153,8 @@ export const Navbar = ({ headerData, ...props }: Props) => {
                 passHref
               >
                 <a tw="inline-block leading-none  color[var(--baseTextColor)] relative overflow-hidden hocus:(no-underline) before:(bg-gray-500 absolute left-0 right-0 bottom-0 h-px transform[translateY(4px)] ) hocus:before:(transition-transform duration-300 transform[translateY(0px)])">
-                  <TiSocialFacebook />
+                  <span tw="sr-only">Facebook page link</span>
+                  <TiSocialFacebook tw="mb-[-2px]" />
                 </a>
               </Link>
             </li>

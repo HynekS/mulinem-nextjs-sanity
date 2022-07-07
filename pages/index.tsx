@@ -1,4 +1,5 @@
 import type { NextPage, GetStaticPropsContext } from "next";
+import Link from "next/link";
 import { groq } from "next-sanity";
 import { urlFor } from "@lib/sanity";
 import { getClient } from "@lib/sanity.server";
@@ -6,8 +7,11 @@ import { withPageStaticProps } from "@lib/withPageStaticProps";
 import PortableText from "react-portable-text";
 
 import Wrapper from "@components/Wrapper";
+import Image from "@components/Image";
 
 import type { FrontPage, FrontPageParagraph } from "schema";
+
+import type { News } from "schema";
 
 type FrontPageProps = Pick<
   FrontPage,
@@ -17,6 +21,12 @@ type FrontPageProps = Pick<
     text: FrontPageParagraph["paragraphText"];
     image?: FrontPageParagraph["paragraphImage"];
   }>;
+} & {
+  news: Array<
+    Pick<News, "title" | "mainImage" | "publishedAt"> & {
+      slug: string;
+    }
+  >;
 };
 
 const frontPageQuery = groq`
@@ -31,11 +41,20 @@ const frontPageQuery = groq`
   }
 `;
 
+const newsExcerpsQuery = groq`
+  *[_type == "news"][0..2] | order(publishedAt desc) {
+    title,
+    "slug" : slug.current,
+    mainImage,
+    publishedAt,  
+  }`;
+
 const Home: NextPage<FrontPageProps> = ({
   title,
   secondaryTitle,
   mainImage,
   paragraphs,
+  news,
 }) => {
   return (
     <div>
@@ -89,6 +108,32 @@ const Home: NextPage<FrontPageProps> = ({
           </div>
         ))}
       </Wrapper>
+      <Wrapper>
+        <div tw="flex justify-between flex-col md:(flex-row)">
+          {!!news.length &&
+            news.map((item) => {
+              const { title, slug, mainImage, publishedAt } = item;
+
+              return (
+                <div
+                  tw="flex-1 mb-4 md:(max-width[calc(1 / 2 * 100% - (1 - 1 / 2) * 3rem)])"
+                  key={slug}
+                >
+                  <h3 tw="mb-3">
+                    <Link href={`news/${slug}`}>{title}</Link>
+                  </h3>
+                  <div tw="flex">
+                    {mainImage && (
+                      <div tw="bg-gray-200 rounded max-height[220px] overflow-hidden">
+                        <Image {...mainImage} image={mainImage} />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+        </div>
+      </Wrapper>
     </div>
   );
 };
@@ -99,6 +144,8 @@ export const getStaticProps = withPageStaticProps(
       preview
     ).fetch(frontPageQuery);
 
+    const news = await getClient(preview).fetch(newsExcerpsQuery);
+
     return {
       props: {
         ...sharedPageStaticProps.props,
@@ -106,6 +153,7 @@ export const getStaticProps = withPageStaticProps(
         secondaryTitle,
         mainImage,
         paragraphs,
+        news,
       },
       revalidate: 60,
     };

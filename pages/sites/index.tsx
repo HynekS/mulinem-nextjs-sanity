@@ -100,7 +100,7 @@ const SitesPage: NextPage<SitePageProps> = ({ sites }) => {
             </div>
           </Portal>
         ) : (
-          <div tw="relative height[640px] w-full background-color[rgb(236, 225, 203)] all-child:(last:(w-full h-full))">
+          <div tw="relative height[640px] w-full background-color[rgb(236, 225, 203)] all-child:(last:(w-full h-full)) mb-8">
             <div
               onClick={() => setIsFullScreen(!isFullScreen)}
               tw="absolute z-10 right-0 top-0 text-white bg-black bg-opacity-40 rounded-md p-2 flex items-center justify-center m-4 cursor-pointer transition[all 0.3s ease] hover:(bg-opacity-50 transform[scale(1.25)])"
@@ -123,7 +123,7 @@ const SitesPage: NextPage<SitePageProps> = ({ sites }) => {
                     />
                   )}
                 </div>
-                <h2>
+                <h2 tw="my-2">
                   <Link href={`sites/${site.slug}`}>{site.title}</Link>
                 </h2>
               </li>

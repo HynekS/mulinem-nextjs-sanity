@@ -21,7 +21,7 @@ export const Footer = ({ footerData }: { footerData: FooterData }) => {
                   href={supporter.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  tw="flex justify-center"
+                  tw="flex justify-center m-5"
                 >
                   <span tw="sr-only">{supporter.title}</span>
                   {!!supporter.image && (
@@ -31,7 +31,7 @@ export const Footer = ({ footerData }: { footerData: FooterData }) => {
                       alttext={supporter.image.alttext || ""}
                       width={200}
                       widths={[100, 200]}
-                      sizes={`(max-width: 320px) 160px, 100%`}
+                      sizes={`(max-width: 320px) 140px, 130px`}
                     />
                   )}
                 </a>
@@ -39,7 +39,7 @@ export const Footer = ({ footerData }: { footerData: FooterData }) => {
             ))}
           </ul>
         )}
-        <div tw="flex justify-center pb-4 text-sm">
+        <div tw="flex justify-center pt-4 pb-8 text-sm">
           © 2013–{`${+new Date().getFullYear()}`} MULINEM
         </div>
       </Wrapper>

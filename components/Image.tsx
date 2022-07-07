@@ -38,7 +38,7 @@ interface Props {
   aspect?: number;
   srcSet?: string;
   caption?: string;
-  width: number;
+  width?: number;
   fit?: FitMode;
   sizes?: string;
   widths?: number[];
@@ -120,7 +120,7 @@ const Image = (props: Props) => {
   const bg = get(image, "asset.metadata.palette.dominant.background");
   const lqip = get(image, "asset.metadata.lqip");
   return (
-    <figure tw="m-4">
+    <figure className={css.figure}>
       <div
         className={className}
         data-has-aspect={!!aspectRatio}
