@@ -47,8 +47,6 @@ const newsExcerpsQuery = groq`
     mainImage,
     publishedAt,
     "slug" : slug.current,
-    mainImage,
-    publishedAt,  
   }`;
 
 const Home: NextPage<FrontPageProps> = ({
@@ -58,6 +56,8 @@ const Home: NextPage<FrontPageProps> = ({
   paragraphs,
   news,
 }) => {
+  console.log({ news });
+
   return (
     <>
       <NextSeo title="Home" />
@@ -116,13 +116,13 @@ const Home: NextPage<FrontPageProps> = ({
           <h2 tw="font-size[var(--step-1)]">News</h2>
           <section tw="flex justify-between flex-col md:(flex-row)">
             {!!news.length &&
-              news.map((item) => {
+              news.map((item, index) => {
                 const { title, slug, mainImage, author, publishedAt } = item;
 
                 return (
                   <article
                     tw="flex-1 mb-4 md:(max-width[calc(1 / 2 * 100% - (1 - 1 / 2) * 3rem)])"
-                    key={slug}
+                    key={index}
                   >
                     <h3 tw="my-0">
                       <Link href={`news/${slug}`}>{title}</Link>

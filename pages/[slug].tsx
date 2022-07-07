@@ -12,7 +12,7 @@ import type { Page as PageType } from "schema";
 
 const pageQuery = groq`
   *[_type == "page" && slug.current == $slug][0] {
-    title
+    title,
     body[]{
     ..., 
     asset->{
