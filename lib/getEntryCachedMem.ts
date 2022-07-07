@@ -1,11 +1,11 @@
 import { getClient } from "@lib/sanity.server";
 
-const DebugCaching = true;
+const DebugCaching = process.env.NODE_ENV === "development";
 declare global {
   // var is required for the object to exist in globalThis
   // let or const will be rejected.
   // eslint-disable-next-line no-var
-  var sanityCache: any; // You can rename this to whatever you want.
+  var sanityCache: any;
 }
 
 export async function getEntryCachedMem(
