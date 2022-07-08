@@ -148,11 +148,13 @@ export const Navbar = ({ headerData, ...props }: Props) => {
             >
               <Link
                 href="https://cs-cz.facebook.com/Medieval-Urban-Landscape-in-Northeastern-Mesopotamia-Mulinem-476545315816993/"
-                target="_blank"
-                rel="noopener noreferrer"
                 passHref
               >
-                <a tw="inline-block leading-none  color[var(--baseTextColor)] relative overflow-hidden hocus:(no-underline) before:(bg-gray-500 absolute left-0 right-0 bottom-0 h-px transform[translateY(4px)] ) hocus:before:(transition-transform duration-300 transform[translateY(0px)])">
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  tw="inline-block leading-none  color[var(--baseTextColor)] relative overflow-hidden hocus:(no-underline) before:(bg-gray-500 absolute left-0 right-0 bottom-0 h-px transform[translateY(4px)] ) hocus:before:(transition-transform duration-300 transform[translateY(0px)])"
+                >
                   <span tw="sr-only">Facebook page link</span>
                   <TiSocialFacebook tw="mb-[-2px]" />
                 </a>
