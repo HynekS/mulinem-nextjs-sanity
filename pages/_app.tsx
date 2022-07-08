@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { DefaultSeo } from "next-seo";
 
 import Layout from "@components/Layout";
@@ -11,10 +10,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Layout {...pageProps}>
-        <Head>
-          <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-          <link rel="icon" type="image/png" href="favicon.png" />
-        </Head>
         <DefaultSeo
           titleTemplate="MULINEM Project | %s"
           defaultTitle="MULINEM Project"
@@ -22,7 +17,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           openGraph={{
             type: "website",
             locale: "en",
-            url: "https://mulinem.net",
+            url: process.env.WEB_URI,
             site_name: "MULINEM Project",
           }}
           twitter={{
