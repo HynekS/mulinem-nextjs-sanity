@@ -68,7 +68,7 @@ const Home: NextPage<FrontPageProps> = ({
               ? `url(${urlFor(mainImage).width(1800).url()})`
               : undefined,
           }}
-          tw="bg-black bg-no-repeat relative bg-center bg-cover min-height[320px] md:(bg-cover min-height[480px]) lg:(bg-cover min-height[560px]) xl:(bg-contain min-height[640px]) after:(absolute inset-0 bg-black opacity-50 z-0)"
+          tw="bg-black bg-no-repeat relative bg-center bg-cover min-height[320px] md:(bg-cover min-height[480px]) lg:(bg-cover min-height[560px]) xl:(bg-cover min-height[640px])"
         >
           <Wrapper>
             <header tw="relative z-10 pt-8 text-center text-white pointer-events-none">

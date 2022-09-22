@@ -38,22 +38,13 @@ const Layout = ({
   });
 
   return (
-    <>
-      {/*<Helmet>
-        <html lang={lang} />
-        <meta name="keywords" content={keywords} />
-        <meta
-          name="description"
-          content="The project “Medieval Urban Landscape in the Northeastern Mesopotamia” (MULINEM), supported by the Czech Science Foundation, is focused on investigation of medieval urban sites in Adiabene (al-Hidyab), historical province of Arbela (Arbīl, Erbil, Hawler)."
-        />
-        <title>{title}</title>
-    </Helmet>*/}
+    <div tw="max-w-[1920px] /* 3xl */ mx-auto bg-[var(--baseBgColor)]">
       <Header>
         <Navbar headerData={headerData} {...props} />
       </Header>
       <Main>{children}</Main>
       <Footer footerData={footerData} {...props} />
-    </>
+    </div>
   );
 };
 
