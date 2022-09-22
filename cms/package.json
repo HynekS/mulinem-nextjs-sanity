@@ -26,6 +26,7 @@
     "react-dom": "^17.0",
     "react-icons": "^4.1.0",
     "sanity-plugin-order-documents": "^0.0.22",
+    "sanity-plugin-seo-tools": "^2.2.1",
     "sanity-typed-schema-builder": "^1.13.3",
     "styled-components": "^5.2.0"
   },
