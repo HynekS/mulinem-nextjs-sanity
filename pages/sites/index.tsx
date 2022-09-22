@@ -1,5 +1,5 @@
 import { Suspense, useState, useMemo, ReactNode } from "react";
-import type { NextPage, GetStaticPropsContext } from "next";
+import type { NextPage } from "next";
 import { NextSeo } from "next-seo";
 import { createPortal } from "react-dom";
 import Link from "next/link";
@@ -120,7 +120,7 @@ const SitesPage: NextPage<SitePageProps> = ({ sites }) => {
             <ul>
               {sites.map((site, index) => (
                 <li key={index} tw="flex items-center gap-3">
-                  <div tw="w-10 h-10 overflow-hidden rounded-full flex items-center justify-center bg-gray-300">
+                  <div tw="w-10 h-10 overflow-hidden rounded-full flex flex-shrink-0 items-center justify-center bg-gray-300">
                     {!!site.mainImage && (
                       <img
                         src={urlFor(site.mainImage).width(120).url()}
@@ -143,7 +143,7 @@ const SitesPage: NextPage<SitePageProps> = ({ sites }) => {
 };
 
 export const getStaticProps = withPageStaticProps(
-  async (context: GetStaticPropsContext, sharedPageStaticProps) => {
+  async (_, sharedPageStaticProps) => {
     const sites = await getClient(false).fetch(sitesQuery);
 
     return {
