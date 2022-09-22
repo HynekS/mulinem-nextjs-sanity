@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Link from "next/link";
 import ReactMapGL, { Marker } from "react-map-gl";
 import { css } from "@emotion/react";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -23,6 +24,7 @@ const markerCSS = css`
   top: 100%;
   right: 50%;
   transform: translateY(1rem);
+
   &::after {
     content: "";
     position: absolute;
@@ -57,7 +59,9 @@ const Map = ({ markers }: Props) => {
         let { longitude, latitude } = site.location;
         return (
           <Marker key={site.title} latitude={latitude} longitude={longitude}>
-            <div css={markerCSS}>{site.title}</div>
+            <div css={markerCSS}>
+              <Link href={String(`sites/${site.slug}`)}>{site.title}</Link>
+            </div>
           </Marker>
         );
       })}
