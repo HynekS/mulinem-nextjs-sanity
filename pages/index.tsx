@@ -73,7 +73,9 @@ const Home: NextPage<FrontPageProps> = ({
           <Wrapper>
             <header tw="relative z-10 pt-8 text-center text-white pointer-events-none">
               <h1>{title}</h1>
-              <h2 tw="text-sm">{secondaryTitle}</h2>
+              <h2 tw="text-base font-thin tracking-wide opacity-90">
+                {secondaryTitle}
+              </h2>
             </header>
           </Wrapper>
         </div>
