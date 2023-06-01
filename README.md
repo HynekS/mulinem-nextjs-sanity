@@ -1,34 +1,27 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
 
-First, run the development server:
+# Website for a research project
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+Website for MULINEM (Medieval Urban Landscape in Northeastern Mesopotamia) project. Built with [Next.js](https://nextjs.org/) & [Sanity.io](https://www.sanity.io/).
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Why?
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+The research project (on which I did participate) needed a website for presentation. There _was_ a WordPress site with a slightly modified default theme, but it wasn't really representative. Also, for a rarely updated site, it was probably unnecessary to pay for WordPress hosting.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## My solution
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+I've designed a new look for the website. Initially, I converted the site into a static one with Gatsby on the frontend and Netlify CMS on the backend. The site was OK, but the colleagues were somewhat struggling with the CMS.
 
-## Learn More
+ I decided to migrate it to Sanity (which I have used in the past and is more user friendly). Because Gatsby has silently passed away in the meantime, I decided to move to Next.js. I also ditched SSG in favor of SSR.
 
-To learn more about Next.js, take a look at the following resources:
+ The site is [up and running](https://mulinem.net), being hosted on Vercel.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+ <Gallery gallery={gallery}/>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Notes
 
-## Deploy on Vercel
+One thing I wasn't happy about was the frontend-to-backend type of safety. It is not officially supported yet for GROQ queries (it might work better with GraphQL). There are some promising open source projects working on solutions, but they are still in alpha, and I wasn't able to make them really work. In the end, I just used the codegen and wrote the types for API responses by hand, which is a little _meh_, but for a small project like this, probably acceptable. This should be solved in Sanity v3, but at the time, I wasn't able to get it running.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+In general, migrating from Gatsby to Next.js went smoothly. The result is much cleaner (which is probably due to the fact that I have more experience with Next than I did with Gatsby when building the previous version). The only thing I've struggled with a little is the different APIs, mainly for media.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+During the build, I am replacing React with Preact to get smaller production bundles.
