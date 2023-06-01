@@ -1,4 +1,6 @@
-
+<div align="center">
+ <img src="https://github.com/HynekS/mulinem-nextjs-sanity/assets/24924967/2d14cc0c-f44b-4da9-a9bd-864e2c8519de" alt="" style="margin-bottom:1rem;">
+</div>
 
 # Website for a research project
 
