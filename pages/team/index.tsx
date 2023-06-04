@@ -46,6 +46,8 @@ const Team: NextPage<TeamProps> = ({ teamMembers }) => {
                   {teamMember.image && (
                     <div tw="min-height[133px] flex items-start">
                       <img
+                        width="120"
+                        height="142"
                         tw="width[64px] rounded mr-4 mt-2 object-contain mb-auto md:(min-width[7rem] width[7rem])"
                         src={urlFor(teamMember.image).url()}
                         alt={`profile photo of ${teamMember.name}`}
