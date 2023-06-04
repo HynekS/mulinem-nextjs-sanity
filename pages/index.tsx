@@ -62,14 +62,29 @@ const Home: NextPage<FrontPageProps> = ({
     <>
       <NextSeo title="Home" />
       <div>
-        <div
-          style={{
-            backgroundImage: mainImage
-              ? `url(${urlFor(mainImage).width(1800).url()})`
-              : undefined,
-          }}
-          tw="bg-black bg-no-repeat relative bg-center bg-cover min-height[320px] md:(bg-cover min-height[480px]) lg:(bg-cover min-height[560px]) xl:(bg-cover min-height[640px])"
-        >
+        <div tw="overflow-hidden bg-black relative  min-height[320px] md:(min-height[480px]) lg:(min-height[560px]) xl:(min-height[640px])">
+          {mainImage ? (
+            <img
+              width="1920"
+              height="831"
+              tw="absolute inset-0 h-full w-full object-cover object-center"
+              srcSet={`
+                ${urlFor(mainImage).width(320)} 320w,
+                ${urlFor(mainImage).width(480)} 480w,
+                ${urlFor(mainImage).width(800)} 800w,
+                ${urlFor(mainImage).width(1200)} 1200w,
+                ${urlFor(mainImage).width(1600)} 1600w,
+                ${urlFor(mainImage).width(1800)} 1800w,
+                ${urlFor(mainImage).width(1920)} 1920w
+              `}
+              sizes={`
+                (max-width: 1800px) 100vw,
+                1920px                                
+              `}
+              src={urlFor(mainImage).url()}
+              alt=""
+            />
+          ) : null}
           <Wrapper>
             <header tw="relative z-10 pt-8 text-center text-white pointer-events-none">
               <h1>{title}</h1>
